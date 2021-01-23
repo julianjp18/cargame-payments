@@ -4,7 +4,7 @@ import { firestore } from "./firebase";
 
 import './App.css';
 
-const Burrito = () => {
+const CargamePayments = () => {
   const [selectValue, setselectValue] = useState('');
   const [historyOffers, sethistoryOffers] = useState({ offers: {} });
   const [message, setmessage] = useState();
@@ -31,6 +31,7 @@ const Burrito = () => {
         offerId: splitValue[0],
         date: new Date().toLocaleString(),
         userId: splitValue[1],
+        driverId: splitValue[2],
         status: "RESUME",
       });
 
@@ -53,7 +54,7 @@ const Burrito = () => {
           {`Selecciona la oferta a realizar validación de pago: `}
           <select className="select-container" value={selectValue} onChange={handleChange}>
             {historyOffers.offers.map((offer) => (
-              <option className="select-option" value={`${offer.id}|${offer.userId}`}>{`Origen: ${offer.currentCity} - destino: ${offer.destinationCity} - offerId: ${offer.id} - valor: ${offer.offerValue} `}</option>
+              <option className="select-option" value={`${offer.id}|${offer.userId}|${offer.driverId}`}>{`Origen: ${offer.currentCity} - destino: ${offer.destinationCity} - offerId: ${offer.id} - valor: ${offer.offerValue} `}</option>
             ))}
           </select>
         </label>
@@ -65,4 +66,4 @@ const Burrito = () => {
   ) : <p>Cargando...</p>;
 }
 
-export default Burrito;
+export default CargamePayments;
