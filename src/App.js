@@ -15,7 +15,6 @@ const Burrito = () => {
       .get()
       .then(querySnapshot => {
         const data = querySnapshot.docs.map(doc => { return { ...doc.data(), id: doc.id }; });
-        console.log(data);
         sethistoryOffers({ offers: data });
       });
 
@@ -27,10 +26,12 @@ const Burrito = () => {
 
     if (selectValue !== '') {
       const splitValue = selectValue.split('|');
-      firestore.collection("ConfirmationPayments").doc(`offer_${selectValue}`).set({
+      firestore.collection("ConfirmationPayments").doc(`offer_${splitValue[0]}_${splitValue[1]}`).set({
         offerId: splitValue[0],
         date: new Date().toLocaleString(),
         userId: splitValue[1],
+        currentCity: splitValue[2],
+        destinationCity: splitValue[3],
         status: "RESUME",
       });
 
@@ -53,7 +54,7 @@ const Burrito = () => {
           {`Selecciona la oferta a realizar validación de pago: `}
           <select className="select-container" value={selectValue} onChange={handleChange}>
             {historyOffers.offers.map((offer) => (
-              <option className="select-option" value={`${offer.id}|${offer.userId}`}>{`Origen: ${offer.currentCity} - destino: ${offer.destinationCity} - offerId: ${offer.id} - valor: ${offer.offerValue} `}</option>
+              <option className="select-option" value={`${offer.id}|${offer.userId}|${offer.currentCity}|${offer.destinationCity}`}>{`Origen: ${offer.currentCity} - destino: ${offer.destinationCity} - offerId: ${offer.id} - valor: ${offer.totalPrice} `}</option>
             ))}
           </select>
         </label>
